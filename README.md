@@ -101,7 +101,7 @@ Consider using a Linux VM or dual booting.**
 1. You need the Android NDK, Go(Golang) and [Ninja](https://ninja-build.org/) to build the apk.
 
 2. Don't forget to include the submodules when you clone:
-      - `git clone --recursive https://github.com/Telegram-FOSS-Team/Telegram-FOSS.git`
+      - `git clone --recursive https://github.com/HannesGitH/Telegram-FOSS-system-emoji.git`
 
 3. Build native FFmpeg and BoringSSL dependencies:
       - Go to the `TMessagesProj/jni` folder and execute the following (define the paths to your NDK and Ninja):
