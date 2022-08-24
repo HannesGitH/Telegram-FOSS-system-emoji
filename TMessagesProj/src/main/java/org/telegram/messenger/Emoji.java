@@ -8,10 +8,12 @@
 
 package org.telegram.messenger;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
@@ -77,7 +79,7 @@ public class Emoji {
         for (int j = 0; j < EmojiData.data.length; j++) {
             int position;
             for (int i = 0; i < EmojiData.data[j].length; i++) {
-                rects.put(EmojiData.data[j][i], new DrawableInfo((byte) j, (short) i, i));
+                rects.put(EmojiData.data[j][i], new DrawableInfo((byte) j, (short) i, i,EmojiData.data[j][i]));
             }
         }
         placeholderPaint = new Paint();
@@ -196,6 +198,7 @@ public class Emoji {
                 info = Emoji.rects.get(newCode);
             }
         }
+        info.code = code;
         return info;
     }
 
@@ -272,7 +275,13 @@ public class Emoji {
             }
 
             if (!canvas.quickReject(b.left, b.top, b.right, b.bottom, Canvas.EdgeType.AA)) {
-                canvas.drawBitmap(emojiBmp[info.page][info.page2], null, b, paint);
+                if(SharedConfig.useSystemEmoji){
+                    paint.setColor(Color.WHITE);
+                    paint.setTextSize(b.width()*0.95f);
+                    canvas.drawText(info.code.toString(), b.left-b.width()*0.1f,b.bottom-b.height()*0.15f, paint);
+                }else {
+                    canvas.drawBitmap(emojiBmp[info.page][info.page2], null, b, paint);
+                }
             }
         }
 
@@ -303,14 +312,16 @@ public class Emoji {
     }
 
     private static class DrawableInfo {
+        public CharSequence code;
         public byte page;
         public short page2;
         public int emojiIndex;
 
-        public DrawableInfo(byte p, short p2, int index) {
+        public DrawableInfo(byte p, short p2, int index, CharSequence code) {
             page = p;
             page2 = p2;
             emojiIndex = index;
+            this.code = code;
         }
     }
 
@@ -500,7 +511,7 @@ public class Emoji {
 
     public static CharSequence replaceEmoji(CharSequence cs, Paint.FontMetricsInt fontMetrics, int size, boolean createNew, int[] emojiOnly, boolean allowAnimated, AtomicReference<WeakReference<View>> viewRef) {
         allowAnimated = false;
-        if (SharedConfig.useSystemEmoji || cs == null || cs.length() == 0) {
+        if ((false || SharedConfig.useSystemEmoji) || cs == null || cs.length() == 0) {
             return cs;
         }
         Spannable s;
