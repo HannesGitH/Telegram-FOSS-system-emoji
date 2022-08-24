@@ -100,14 +100,16 @@ Consider using a Linux VM or dual booting.**
 
 1. You need the Android NDK, Go(Golang) and [Ninja](https://ninja-build.org/) to build the apk.
 
-2. Don't forget to include the submodules when you clone:
+2. Also make sure you have yarn as well as that your environment uses the gnu-sed when invoking sed (macOS builtin sed wont work)
+
+3. Don't forget to include the submodules when you clone:
       - `git clone --recursive https://github.com/HannesGitH/Telegram-FOSS-system-emoji.git`
 
-3. Build native FFmpeg and BoringSSL dependencies:
+4. Build native FFmpeg and BoringSSL dependencies:
       - Go to the `TMessagesProj/jni` folder and execute the following (define the paths to your NDK and Ninja):
 
       ```
-      export NDK=[PATH_TO_NDK]
+      export NDK=[PATH_TO_NDK] # This should be version 21.4.7075529 newer or older might not work
       export NINJA_PATH=[PATH_TO_NINJA]
       ./build_libvpx_clang.sh
       ./build_ffmpeg_clang.sh
@@ -116,7 +118,7 @@ Consider using a Linux VM or dual booting.**
       ./build_boringssl.sh
       ```
 
-4. If you want to publish a modified version of Telegram:
+5. If you want to publish a modified version of Telegram:
       - You should get **your own API key** here: https://core.telegram.org/api/obtaining_api_id and create a file called `API_KEYS` in the source root directory.
         The contents should look like this:
         ```
