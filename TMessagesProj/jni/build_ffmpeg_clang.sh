@@ -92,6 +92,7 @@ function build_one {
 	--enable-demuxer=ogg \
 	--enable-demuxer=matroska \
 	--enable-hwaccels \
+	--pkg-config=pkg-config\
 	$ADDITIONAL_CONFIGURE_FLAG
 
 	#echo "continue?"
@@ -224,7 +225,11 @@ function build {
 }
 
 if (( $# == 0 )); then
-	build x86_64 arm64 arm x86
+	build \
+	x86_64 \
+	arm64 \
+	arm \
+	x86
 else
 	build $@
 fi
